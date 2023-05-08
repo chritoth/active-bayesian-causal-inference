@@ -128,16 +128,20 @@ class Environment:
     def sample(self, interventions: dict, batch_size: int, num_batches: int = 1) -> Experiment:
         data = dict()
         for node in self.topological_order:
-            mech = self.mechanisms[node]
-
-            # sample from mechanism
-            parents = get_parents(node, self.graph)
-            if not parents:
-                samples = mech.sample(torch.empty(num_batches, batch_size, 1))
+            # check if node is intervened upon
+            if node in interventions:
+                samples = torch.ones(num_batches, batch_size, 1) * interventions[node]
             else:
-                x = torch.cat([data[parent] for parent in parents], dim=-1)
-                assert x.shape == (num_batches, batch_size, mech.in_size), print(f'Invalid shape {x.shape}!')
-                samples = mech.sample(x)
+                mech = self.mechanisms[node]
+
+                # sample from mechanism
+                parents = get_parents(node, self.graph)
+                if not parents:
+                    samples = mech.sample(torch.empty(num_batches, batch_size, 1))
+                else:
+                    x = torch.cat([data[parent] for parent in parents], dim=-1)
+                    assert x.shape == (num_batches, batch_size, mech.in_size), print(f'Invalid shape {x.shape}!')
+                    samples = mech.sample(x)
 
             # store samples
             data[node] = samples
