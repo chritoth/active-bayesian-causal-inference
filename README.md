@@ -2,6 +2,9 @@
 
 This repository contains the implementation of the Active Bayesian Causal Inference framework for non-linear additive Gaussian noise models as described in our  [NeurIPS'22 ABCI paper](https://arxiv.org/abs/2206.02063). In summary, it provides functionality for generating groundtruth environments, running ABCI of course, and generating plots as in the paper. We also provide example notebooks to illustrate the basic usage of the code base and get you started quickly.  Feel free to reach out if you have questions about the paper or code!
 
+> [!NOTE]  
+> In case you are interested in *running our framework on static datasets*, we provide an improved and extended implementation at [https://github.com/chritoth/bci-arco-gp](https://github.com/chritoth/bci-arco-gp). The main differences are parameter handling via a global config file, more efficient training and inference, additional functionality for storing and loading datasets, and a novel graph inference model based on orders as an alternative to DiBS. Check it out!
+
 
 ## Getting Started
 
